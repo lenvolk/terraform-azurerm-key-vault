@@ -60,13 +60,3 @@ data "azurerm_key_vault" "test" {
   resource_group_name = azurerm_resource_group.test.name
 }
 
-//module "test_assertions" {
-//  source = "innovationnorway/assertions/test"
-//  equals = [
-//    {
-//      name = "has access policies"
-//      got  = length(data.azurerm_key_vault.test.access_policy)
-//      want = 2
-//    }
-//  ]
-//}

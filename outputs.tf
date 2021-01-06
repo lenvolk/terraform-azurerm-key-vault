@@ -25,3 +25,11 @@ output "references" {
   }
   description = "A mapping of Key Vault references for App Service and Azure Functions."
 }
+### Just for Testing
+output "grouped_access_policies" {
+  value       = { for p in local.flattened_access_policies : p.object_id => p... }
+}
+
+output "combined_access_policies" {
+  value       = { for k, v in local.combined_access_policies : k => v }
+}
