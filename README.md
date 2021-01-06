@@ -59,3 +59,45 @@ The `access_policies` object can have the following keys:
 | `key_permissions` | `list` | List of key permissions. The options are: `backup`, `create`, `decrypt`, `delete`, `encrypt`, `get`, `import`, `list`, `purge`, `recover`, `restore`, `sign`, `unwrapkey`, `update`, `verify` and `wrapkey`. |
 | `secret_permissions` | `list` | List of secret permissions. The options are: `backup`, `delete`, `get`, `list`, `purge`, `recover`, `restore` and `set`. |
 | `storage_permissions` | `list` | List of storage permissions. The options are: `backup`, `delete`, `deletesas`, `get`, `getsas`, `list`, `listsas`, `purge`, `recover`, `regeneratekey`, `restore`, `set`, `setsas` and `update`. |
+
+
+Secret files
+------------
+
+    ```
+-	secret.json : stores the credential to write in Infra. Create the file in the directory Deploy/appgw/secret/secret.json
+    - Content sample ==>
+    ```json
+        {
+            "tenant_id"        : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "subscription_id"  : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "submsdn_id"       : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "client_id"        : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "client_secret"    : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "key"            : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        }
+    ```
+
+Sample usage
+-----
+
+This step ensures that Terraform has all the prerequisites to build your template in Azure.
+```hcl
+
+execute TF commands from "test" directory 
+
+terraform init -backend-config="../secret/secret.json" -input=false -reconfigure
+
+terraform workspace new dev
+# terraform workspace list
+# terraform workspace select dev
+# terraform workspace delete -force dev
+
+terraform plan -var-file="../secret/secret.json" -out dev-azkv.tfplan -input=false
+
+terraform apply "dev-azkv.tfplan"
+
+terraform destroy -var-file="./variable/dev-azkv.tfvars" -var-file="./secret/secret.json" -auto-approve
+
+
+```

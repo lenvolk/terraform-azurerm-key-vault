@@ -1,3 +1,4 @@
+
 variable "name" {
   type        = string
   description = "The name of the Key Vault."
@@ -117,7 +118,7 @@ locals {
     }
   ]
 
-  service_principal_object_id = data.azurerm_client_config.main.service_principal_object_id
+  service_principal_object_id = data.azurerm_client_config.main.object_id
 
   self_permissions = {
     object_id          = local.service_principal_object_id
